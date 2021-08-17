@@ -26,15 +26,5 @@ func TestAccDataSourceOutscaleOAPIFlexibleGpuCatalog_basic(t *testing.T) {
 
 func testAccDataSourceOutscaleOAPIFlexibleGpuCatalogConfig(region string) string {
 	return fmt.Sprintf(`
-                resource "outscale_flexible_gpu" "fGPU-1" { 
-                        model_name             =  "nvidia-k2"
-                        generation             =  "v3"
-                        subregion_name         =  "%s"
-                        delete_on_vm_deletion  =   true
-                }
-
-		data "outscale_flexible_gpu_catalog" "catalog-fGPU" {
-
-		}
-	`, region)
+		data "outscale_flexible_gpu_catalog" "catalog-fGPU" { }`)
 }

@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches: [ ci-test ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17
+    - name: Build go format
+      run: make fmt
+    - name: Build go test
+      run: make test
+    - name: Build linux binary
+      run: env GOOS=linux GOARCH=amd64 go build -o terraform-provider-outscale_linux_amd64_v0.5.0
+    - name: Build darwin binary
+      run: env GOOS=darwin GOARCH=amd64 go build -o terraform-provider-outscale_darwin_amd64_v0.5.0
+    - name: Build windows binary
+      run: env GOOS=windows GOARCH=amd64 go build -o terraform-provider-outscale_windows_amd64_v0.5.0
+    - name: Moove binaries
+      run: mv terraform-provider-outscale_* binary/
+    - name: Add right
+      run: chmod +x binary/*
+    - name: Archive binary artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: terraform-provider-binaries
+        path: binary/

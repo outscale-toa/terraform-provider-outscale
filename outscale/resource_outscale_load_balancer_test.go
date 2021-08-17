@@ -18,7 +18,7 @@ import (
 func TestAccOutscaleOAPILBUBasic(t *testing.T) {
 	var conf oscgo.LoadBalancer
 
-	r := acctest.RandIntRange(0, 10)
+	r := acctest.RandIntRange(0, 100)
 	region := os.Getenv("OUTSCALE_REGION")
 	zone := fmt.Sprintf("%sa", region)
 
@@ -31,7 +31,7 @@ func TestAccOutscaleOAPILBUBasic(t *testing.T) {
 		CheckDestroy:  testAccCheckOutscaleOAPILBUDestroy,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccOutscaleOAPILBUConfig(r),
+				Config: testAccOutscaleOAPILBUConfig(r, zone),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckOutscaleOAPILBUExists("outscale_load_balancer.bar", &conf),
 					resource.TestCheckResourceAttr(
@@ -155,11 +155,11 @@ func testAccCheckOutscaleOAPILBUExists(n string, res *oscgo.LoadBalancer) resour
 	}
 }
 
-func testAccOutscaleOAPILBUConfig(r int) string {
+func testAccOutscaleOAPILBUConfig(r int, zone string) string {
 	return fmt.Sprintf(`
 resource "outscale_load_balancer" "bar" {
-  subregion_names = ["%sa"]
-  load_balancer_name               = "foobar-terraform-elb-%d"
+  subregion_names = ["%s"]
+  load_balancer_name               = "foobar-terraform-elbt%d"
   listeners {
     backend_port = 8000
     backend_protocol = "HTTP"
@@ -173,5 +173,5 @@ resource "outscale_load_balancer" "bar" {
 	}
 
 }
-`, os.Getenv("OUTSCALE_REGION"), r)
+`, zone, r)
 }
