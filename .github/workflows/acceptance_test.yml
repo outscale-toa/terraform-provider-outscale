@@ -19,8 +19,8 @@ jobs:
           go-version: 1.17
       - name: Build go test
         run: make test
-      - name: Run acceptance tests
-        run: make test #acc
+#      - name: Run acceptance tests
+#        run: make test #acc
         env:
           OUTSCALE_ACCESSKEYID: ${{ secrets.OSC_ACCESS_KEY }}
           OUTSCALE_SECRETKEYID: ${{ secrets.OSC_SECRET_KEY }}
