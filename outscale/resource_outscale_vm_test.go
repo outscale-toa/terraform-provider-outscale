@@ -690,7 +690,7 @@ func testAccCheckOutscaleOAPIVMConfigBasicWithNicAttached(omi, vmType, region, k
 		resource "outscale_subnet" "outscale_subnet" {
 			net_id              = outscale_net.outscale_net.net_id
 			ip_range            = "10.0.0.0/24"
-			subregion_name      = "eu-west-2a"
+			subregion_name      = "%[3]sa"
 		}
 
 		resource "outscale_security_group" "outscale_security_group8" {
@@ -704,10 +704,9 @@ func testAccCheckOutscaleOAPIVMConfigBasicWithNicAttached(omi, vmType, region, k
 		}
 
 		resource "outscale_vm" "basic" {
-			image_id			     = "%[1]s"
+			image_id	         = "%[1]s"
 			vm_type                  = "%[2]s"
 			keypair_name	         = "%[4]s"
-			placement_subregion_name = "%[3]sa"
 
 			nics {
 				subnet_id = outscale_subnet.outscale_subnet.subnet_id
