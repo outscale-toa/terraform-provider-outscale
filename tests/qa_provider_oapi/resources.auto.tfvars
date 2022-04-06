@@ -6,4 +6,5 @@ server_certificate_id   = "arn:aws:iam::xxxxxxxxxxxx:xxxxxxxxxxxxxxxxxxx/xxxxxxx
 server_certificate_id_2 = "arn:aws:iam::xxxxxxxxxxxx:xxxxxxxxxxxxxxxxxxx/xxxxxxx/xxxxxxxxxxxx"
 service_name            = "com.outscale.eu-west-2.api" #example
 vm_type                 = "tinav4.c2r2p2"
+region                  = "eu-west-2"
 ###########

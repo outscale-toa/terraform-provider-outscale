@@ -7,4 +7,6 @@ terraform {
   }
 }
 
-provider "outscale" {}
+provider "outscale" {
+	 region = var.region
+}
