@@ -94,7 +94,7 @@
                         "subregion_name": "###region###a",
                         "tags": [],
                         "volume_id": "##id-3##",
-                        "volume_type": "gp2"
+                        "volume_type": "standard"
                     },
                     "sensitive_attributes": [],
                     "private": "bnVsbA==",

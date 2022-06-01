@@ -80,7 +80,7 @@
                                         "iops": 0,
                                         "snapshot_id": "",
                                         "volume_size": 100,
-                                        "volume_type": "gp2"
+                                        "volume_type": "standard"
                                     }
                                 ],
                                 "device_name": "/dev/sda1",
@@ -94,7 +94,7 @@
                                         "iops": 0,
                                         "snapshot_id": "",
                                         "volume_size": 15,
-                                        "volume_type": "gp2"
+                                        "volume_type": "standard"
                                     }
                                 ],
                                 "device_name": "/dev/sdb",
