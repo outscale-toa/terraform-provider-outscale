@@ -301,6 +301,14 @@ class ProviderOapiMeta(type):
     def __new__(cls, name, bases, attrs):
         logger = logging.getLogger('tpd_test')
 
+        def skip_tests(test_name):
+            with open('tests_to_fix.json') as t_file:
+                skips = json.load(t_file)
+            matching = [val for val in skips if test_name in val]
+            if matching:
+                return True
+            return False
+
         def create_test_func(resource, test_name, test_path):
             def func(self):
                 self.exec_test(test_name, test_path)
@@ -321,6 +329,8 @@ class ProviderOapiMeta(type):
                     logger.warning("Unexpected file: '%s'", path)
                     continue
                 logger.debug("Build test: '%s'", path)
+                if skip_tests(test) == True:
+                    continue
                 func = create_test_func(resource, test, path)
                 attrs[func.__name__] = func
         return type.__new__(cls, name, bases, attrs)
