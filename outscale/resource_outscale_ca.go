@@ -39,7 +39,6 @@ func resourceOutscaleOAPICa() *schema.Resource {
 			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 			},
 			"request_id": {
 				Type:     schema.TypeString,
