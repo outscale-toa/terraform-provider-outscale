@@ -18,5 +18,5 @@ cp terraform-provider-outscale_v0.5.32 $BUILD_DIR/terraform.d/plugins/registry.t
 
 cd $BUILD_DIR
 pip install -r requirements.txt
-pytest -v ./test_provider_oapi.py
+pytest -v -k TF-98 ./test_provider_oapi.py
 rm -fr terraform.d || exit 0
