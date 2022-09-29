@@ -9,14 +9,14 @@ VERSION=$(shell git describe --exact-match 2> /dev/null || \
                  git describe --match=$(git rev-parse --short=8 HEAD) --always --dirty --abbrev=8)
 
 build: fmtcheck
-	go build -buildvcs=false -ldflags "-X github.com/terraform-providers/terraform-provider-outscale/version.version=${VERSION}"
+	go build -ldflags "-X github.com/terraform-providers/terraform-provider-outscale/version.version=${VERSION}"
 
 
 test: fmtcheck
-	go test $(TEST) -count 1 -timeout=30s -parallel=4 -buildvcs=false
+	go test $(TEST) -count 1 -timeout=30s -parallel=4
 
 testacc: fmtcheck
-	TF_ACC=1 go test $(TEST) -count 1 -v -parallel 4 $(TESTARGS) -timeout 240m -cover -buildvcs=false
+	TF_ACC=1 go test $(TEST) -count 1 -v -parallel 4 $(TESTARGS) -timeout 240m -cover
 
 fmt:
 	@echo "==> Fixing source code with gofmt..."
