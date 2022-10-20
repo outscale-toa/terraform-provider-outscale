@@ -2,21 +2,20 @@ package outscale
 
 import (
 	"fmt"
-	"os"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
 func TestAccOutscaleOAPINicsDataSource(t *testing.T) {
-	subregion := os.Getenv("OUTSCALE_REGION")
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccCheckOutscaleOAPINicsDataSourceConfig(subregion),
+				Config: testAccCheckOutscaleOAPINicsDataSourceConfig(utils.GetRegion()),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr("data.outscale_nics.outscale_nics", "nics.#", "1"),
 				),

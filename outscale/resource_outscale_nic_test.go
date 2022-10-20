@@ -3,7 +3,6 @@ package outscale
 import (
 	"context"
 	"fmt"
-	"os"
 	"reflect"
 	"testing"
 	"time"
@@ -18,7 +17,7 @@ import (
 func TestAccOutscaleOAPIENI_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.Nic
-	subregion := os.Getenv("OUTSCALE_REGION")
+	subregion := utils.GetRegion()
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:      func() { testAccPreCheck(t) },

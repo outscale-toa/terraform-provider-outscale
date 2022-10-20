@@ -3,7 +3,6 @@ package outscale
 import (
 	"context"
 	"fmt"
-	"os"
 	"strings"
 	"testing"
 	"time"
@@ -17,7 +16,6 @@ import (
 func TestAccOutscaleOAPISubNet_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.Subnet
-	region := os.Getenv("OUTSCALE_REGION")
 
 	resource.Test(t, resource.TestCase{
 		PreCheck:     func() { testAccPreCheck(t) },
@@ -25,7 +23,7 @@ func TestAccOutscaleOAPISubNet_basic(t *testing.T) {
 		CheckDestroy: testAccCheckOutscaleOAPISubNetDestroyed, // we need to create the destroyed test case
 		Steps: []resource.TestStep{
 			{
-				Config: testAccOutscaleOAPISubnetConfig(region),
+				Config: testAccOutscaleOAPISubnetConfig(utils.GetRegion()),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckOutscaleOAPISubNetExists("outscale_subnet.subnet", &conf),
 				),

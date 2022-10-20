@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -134,4 +135,12 @@ func CheckThrottling(err error) *resource.RetryError {
 		return resource.RetryableError(err)
 	}
 	return resource.NonRetryableError(err)
+}
+
+func GetRegion() string {
+	region := fmt.Sprintf("%s", os.Getenv("OUTSCALE_REGION"))
+	if region == "" {
+		region = "us-east-2"
+	}
+	return region
 }
