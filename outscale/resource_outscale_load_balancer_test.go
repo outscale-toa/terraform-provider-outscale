@@ -3,12 +3,12 @@ package outscale
 import (
 	"context"
 	"fmt"
-	"os"
 	"strings"
 	"testing"
 	"time"
 
 	oscgo "github.com/outscale/osc-sdk-go/v2"
+	"github.com/terraform-providers/terraform-provider-outscale/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/acctest"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -20,8 +20,7 @@ func TestAccOutscaleOAPILBUBasic(t *testing.T) {
 	var conf oscgo.LoadBalancer
 
 	r := acctest.RandIntRange(0, 50)
-	region := os.Getenv("OUTSCALE_REGION")
-	zone := fmt.Sprintf("%sa", region)
+	zone := fmt.Sprintf("%sa", utils.GetRegion())
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
@@ -174,5 +173,5 @@ resource "outscale_load_balancer" "bar" {
 	}
 
 }
-`, os.Getenv("OUTSCALE_REGION"), r)
+`, utils.GetRegion(), r)
 }

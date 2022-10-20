@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	oscgo "github.com/outscale/osc-sdk-go/v2"
+	"github.com/terraform-providers/terraform-provider-outscale/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/acctest"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
@@ -16,7 +17,7 @@ import (
 func TestAccOutscaleOAPIImage_basic(t *testing.T) {
 	t.Parallel()
 	omi := os.Getenv("OUTSCALE_IMAGEID")
-	region := os.Getenv("OUTSCALE_REGION")
+	region := utils.GetRegion()
 
 	var ami oscgo.Image
 	rInt := acctest.RandInt()
