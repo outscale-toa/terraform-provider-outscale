@@ -56,9 +56,8 @@ jobs:
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v3
         with:
-          version: latest
+          version: "${{ steps.version.outputs.content }}"
           args: release --rm-dist
-          tag_name: "${{ steps.version.outputs.content }}"
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
