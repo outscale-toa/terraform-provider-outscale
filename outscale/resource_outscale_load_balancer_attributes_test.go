@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPILBUAttr_basic(t *testing.T) {
+func TestAccOthers_LBUAttr_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.AccessLog
 
@@ -52,19 +52,17 @@ func testAccOutscaleOAPILBUAttrConfig(region string, r int) string {
 	return fmt.Sprintf(`
 resource "outscale_load_balancer" "bar" {
   subregion_names = ["%sa"]
-  load_balancer_name               = "foobar-terraform-elb-%d"
+  load_balancer_name       = "foobar-terraform-elb-%d"
   listeners {
-    backend_port = 8000
-    backend_protocol = "HTTP"
-    load_balancer_port = 80
+    backend_port           = 8000
+    backend_protocol       = "HTTP"
+    load_balancer_port     = 80
     load_balancer_protocol = "HTTP"
   }
-
-	tags {
-                key = "test_baz"
-                value = "baz"
-	}
-
+  tags {
+       key = "test_baz"
+       value = "baz"
+  }
 }
 
 resource "outscale_load_balancer_attributes" "bar2" {

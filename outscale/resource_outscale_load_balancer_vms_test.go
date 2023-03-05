@@ -12,7 +12,7 @@ import (
 	oscgo "github.com/outscale/osc-sdk-go/v2"
 )
 
-func TestAccOutscaleOAPILBUAttachment_basic(t *testing.T) {
+func TestAccVM_WithLBUAttachment_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.LoadBalancer
 	omi := os.Getenv("OUTSCALE_IMAGEID")
@@ -66,8 +66,8 @@ resource "outscale_vm" "foo1" {
 }
 
 resource "outscale_load_balancer_vms" "foo1" {
-  load_balancer_name      = "${outscale_load_balancer.bar.id}"
-  backend_vm_ids = ["${outscale_vm.foo1.id}"]
+  load_balancer_name      = outscale_load_balancer.bar.id
+  backend_vm_ids = [outscale_vm.foo1.id]
 }
 `, region, omi)
 }

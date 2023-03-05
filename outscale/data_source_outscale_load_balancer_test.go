@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 )
 
-func TestAccOutscaleOAPIDSLBU_basic(t *testing.T) {
+func TestAccOthers_LBU_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.LoadBalancer
 

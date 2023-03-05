@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPISubregionsDataSource_Basic(t *testing.T) {
+func TestAccOthers_SubregionsDataSource_Basic(t *testing.T) {
 	t.Parallel()
 
 	resource.Test(t, resource.TestCase{
@@ -28,7 +28,7 @@ func TestAccOutscaleOAPISubregionsDataSource_Basic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPISubregionsDataSource_All(t *testing.T) {
+func TestAccOthers_SubregionsDataSource_All(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {

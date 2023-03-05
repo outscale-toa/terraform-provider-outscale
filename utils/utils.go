@@ -236,9 +236,9 @@ func I32toa(i int32) string {
 }
 
 func GetRegion() string {
-	region := fmt.Sprintf("%s", os.Getenv("TESTACC_REGION"))
+	region := fmt.Sprintf("%s", os.Getenv("OUTSCALE_REGION"))
 	if region == "" {
-		region = "eu-west-2"
+		region = fmt.Sprintf("%s", os.Getenv("OSC_REGION"))
 	}
 	return region
 }

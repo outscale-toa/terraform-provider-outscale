@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPISnapshotExportTasksDataSource_basic(t *testing.T) {
+func TestAccOthers_SnapshotExportTasksDataSource_basic(t *testing.T) {
 	imageName := acctest.RandomWithPrefix("terraform-export")
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {

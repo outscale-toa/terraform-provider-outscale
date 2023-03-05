@@ -8,7 +8,9 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPISnapshotsDataSource_basic(t *testing.T) {
+func TestAccOthers_SnapshotsDataSource_basic(t *testing.T) {
+	t.Parallel()
+
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
@@ -31,11 +33,11 @@ func testAccCheckOutscaleOAPISnapshotsDataSourceConfig(region string) string {
 	}
 
 	resource "outscale_snapshot" "snapshot" {
-		volume_id = "${outscale_volume.example.id}"
+		volume_id = outscale_volume.example.id
 	}
 
 	data "outscale_snapshots" "outscale_snapshots" {
-		snapshot_id = ["${outscale_snapshot.snapshot.id}"]
+		snapshot_id = [outscale_snapshot.snapshot.id]
 	}
 `, region)
 }
