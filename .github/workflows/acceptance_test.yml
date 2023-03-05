@@ -13,8 +13,9 @@ on:
 
 jobs:
   Acceptances_tests:
+    environment: RUNNER_ACCESS
     concurrency: terraform-acceptance-test
-    runs-on: [self-hosted, linux]
+    runs-on: [self-hosted, linux, us-east-2]
     steps:
       - uses: actions/checkout@v3
         with:
