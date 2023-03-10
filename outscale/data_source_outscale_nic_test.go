@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPIENIDataSource_basic(t *testing.T) {
+func TestAccNet_WithNicDataSource_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.Nic
 
@@ -36,7 +36,7 @@ func TestAccOutscaleOAPIENIDataSource_basic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPIENIDataSource_basicFilter(t *testing.T) {
+func TestAccNet_WithNicDataSource_basicFilter(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.Nic
 

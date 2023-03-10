@@ -14,7 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPIENI_basic(t *testing.T) {
+func TestAccNet_WithNic_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.Nic
 	subregion := utils.GetRegion()

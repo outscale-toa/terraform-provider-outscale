@@ -8,7 +8,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPINetAccessPoint_basic(t *testing.T) {
+func TestAccNet_AccessPoint_basic(t *testing.T) {
 	ServiceName := fmt.Sprintf("com.outscale.%s.api", utils.GetRegion())
 
 	resource.Test(t, resource.TestCase{

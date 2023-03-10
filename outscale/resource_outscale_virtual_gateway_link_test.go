@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPIVpnGatewayAttachment_basic(t *testing.T) {
+func TestAccNet_withpnGatewayAttachment_basic(t *testing.T) {
 	var vpc oscgo.Net
 	var vgw oscgo.VirtualGateway
 	t.Parallel()
@@ -71,7 +71,7 @@ func testAccCheckVpnGatewayAttachmentImportStateIDFunc(resourceName string) reso
 	}
 }
 
-func TestAccAWSOAPIVpnGatewayAttachment_deleted(t *testing.T) {
+func TestAccNet_WithVpnGatewayAttachment_deleted(t *testing.T) {
 	t.Parallel()
 	var vgw oscgo.VirtualGateway
 	var vpc oscgo.Net

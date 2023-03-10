@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccDataSourceOutscaleOAPISubnet(t *testing.T) {
+func TestAccNet_WithSubnet_DataSource(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
@@ -26,7 +26,7 @@ func TestAccDataSourceOutscaleOAPISubnet(t *testing.T) {
 	})
 }
 
-func TestAccDataSourceOutscaleOAPISubnet_withAvailableIpsCountsFilter(t *testing.T) {
+func TestAccNet_SubnetDataSource_withAvailableIpsCountsFilter(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
