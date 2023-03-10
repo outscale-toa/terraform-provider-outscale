@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPIImageExportTask_basic(t *testing.T) {
+func TestAccVM_withImageExportTask_basic(t *testing.T) {
 	omi := os.Getenv("OUTSCALE_IMAGEID")
 	region := utils.GetRegion()
 	imageName := acctest.RandomWithPrefix("test-image-name")

@@ -39,7 +39,7 @@ func TestAccNet_withpnGatewayAttachment_basic(t *testing.T) {
 	})
 }
 
-func TestAccResourceVpnGatewayAttachment_importBasic(t *testing.T) {
+func TestAccNet_VpnGatewayAttachment_importBasic(t *testing.T) {
 	resourceName := "outscale_virtual_gateway_link.test"
 
 	resource.ParallelTest(t, resource.TestCase{

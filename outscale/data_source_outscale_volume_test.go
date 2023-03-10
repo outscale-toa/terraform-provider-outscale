@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPIVolumeDataSource_basic(t *testing.T) {
+func TestAccOthers_VolumeDataSource_basic(t *testing.T) {
 	t.Parallel()
 
 	resource.Test(t, resource.TestCase{
@@ -28,7 +28,7 @@ func TestAccOutscaleOAPIVolumeDataSource_basic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPIVolumeDataSource_filterByTags(t *testing.T) {
+func TestAccOthers_VolumeDataSource_filterByTags(t *testing.T) {
 	t.Parallel()
 
 	resource.Test(t, resource.TestCase{
@@ -77,7 +77,7 @@ func testAccCheckOutscaleOAPIVolumeDataSourceConfig(region string) string {
 		data "outscale_volume" "ebs_volume" {
 			filter {
 				name   = "volume_ids"
-				values = ["${outscale_volume.example.id}"]
+				values = [outscale_volume.example.id]
 			}
 		}
 	`, region)
@@ -104,7 +104,7 @@ func testAccCheckOutscaleOAPIVolumeDataSourceConfigFilterByTags(region string) s
 
 			filter {
 				name   = "volume_ids"
-				values = ["outscale_volume.example.id"]
+				values = [outscale_volume.example.id]
 			}
 
 		}

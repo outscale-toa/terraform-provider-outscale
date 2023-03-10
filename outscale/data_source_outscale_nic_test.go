@@ -172,7 +172,7 @@ func testAccOutscaleOAPIENIDataSourceConfigFilter(subregion string) string {
 	}
 	
 	resource "outscale_subnet" "outscale_subnet" {
-		subregion_name = "%sb"
+		subregion_name = "%sa"
 		ip_range       = "10.0.0.0/24"
 		net_id         = outscale_net.outscale_net.id
 	}

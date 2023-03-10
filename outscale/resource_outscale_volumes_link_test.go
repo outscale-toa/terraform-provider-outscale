@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPIVolumeAttachment_basic(t *testing.T) {
+func TestAccVM_WithVolumeAttachment_basic(t *testing.T) {
 	t.Parallel()
 	omi := os.Getenv("OUTSCALE_IMAGEID")
 	keypair := os.Getenv("OUTSCALE_KEYPAIR")
@@ -42,7 +42,7 @@ func TestAccOutscaleOAPIVolumeAttachment_basic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPIVolumeAttachment_importBasic(t *testing.T) {
+func TestAccVM_ImportVolumeAttachment_Basic(t *testing.T) {
 	omi := os.Getenv("OUTSCALE_IMAGEID")
 	keypair := os.Getenv("OUTSCALE_KEYPAIR")
 
@@ -127,8 +127,8 @@ func testAccOAPIVolumeAttachmentConfig(omi, vmType, region, keypair string) stri
 
 		resource "outscale_volumes_link" "ebs_att" {
 			device_name = "/dev/sdh"
-			volume_id   = "${outscale_volume.volume.id}"
-			vm_id       = "${outscale_vm.web.id}"
+			volume_id   = outscale_volume.volume.id
+			vm_id       = outscale_vm.web.id
 		}
 	`, omi, vmType, region, keypair)
 }

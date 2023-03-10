@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPIImagesDataSource_Instance(t *testing.T) {
+func TestAccVM_WithImagesDataSource_basic(t *testing.T) {
 	t.Parallel()
 	omi := os.Getenv("OUTSCALE_IMAGEID")
 	imageName := fmt.Sprintf("image-test-%d", acctest.RandInt())
@@ -65,18 +65,18 @@ func testAccCheckOutscaleOAPIImagesDataSourceConfig(omi, vmType, region, imageNa
 
 		resource "outscale_image" "image_one" {
 			image_name = "%[4]s-one"
-			vm_id = "${outscale_vm.basic_one.id}"
+			vm_id = outscale_vm.basic_one.id
 		}
 
 		resource "outscale_image" "image_two" {
 			image_name = "%[4]s-two"
-			vm_id = "${outscale_vm.basic_two.id}"
+			vm_id = outscale_vm.basic_two.id
 		}
 
 		data "outscale_images" "nat_ami" {
 			filter {
 				name = "image_ids"
-				values = ["${outscale_image.image_one.id}", "${outscale_image.image_two.id}"]
+				values = [outscale_image.image_one.id, outscale_image.image_two.id]
 			}
 		}
 	`, omi, vmType, region, imageName)

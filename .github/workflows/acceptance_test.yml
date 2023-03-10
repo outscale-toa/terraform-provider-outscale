@@ -33,7 +33,7 @@ jobs:
       - name: Build go test
         run: make test
       - name: Run acceptance tests
-        run: make testacc
+        run: make test-net
         env:
           OUTSCALE_ACCESSKEYID: ${{ secrets.OSC_ACCESS_KEY }}
           OUTSCALE_SECRETKEYID: ${{ secrets.OSC_SECRET_KEY }}

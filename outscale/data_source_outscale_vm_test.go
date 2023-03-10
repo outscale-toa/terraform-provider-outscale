@@ -9,7 +9,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPIVMDataSource_basic(t *testing.T) {
+func TestAccVM_DataSource_basic(t *testing.T) {
 	t.Parallel()
 	omi := os.Getenv("OUTSCALE_IMAGEID")
 	datasourcceName := "data.outscale_vm.basic_web"
