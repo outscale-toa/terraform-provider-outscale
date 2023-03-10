@@ -116,7 +116,7 @@ func TestAccOutscaleOAPIDhcpOptional_withEmptyAttrs(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPIDhcpOptional_withNet(t *testing.T) {
+func TestAccNet_withDhcpOptional(t *testing.T) {
 	t.Parallel()
 	resourceName := "outscale_dhcp_option.outscale_dhcp_option"
 	domainName := fmt.Sprintf("%s.compute%s.internal", utils.GetRegion(), acctest.RandString(3))

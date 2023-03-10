@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPIRouteTable_basic(t *testing.T) {
+func TestAccNet_WithRouteTable_basic(t *testing.T) {
 	var v oscgo.RouteTable
 
 	testCheck := func(*terraform.State) error {
@@ -76,7 +76,7 @@ func TestAccOutscaleOAPIRouteTable_basic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPIRouteTable_instance(t *testing.T) {
+func TestAccNet_RouteTable_instance(t *testing.T) {
 	omi := os.Getenv("OUTSCALE_IMAGEID")
 
 	var v oscgo.RouteTable
@@ -115,7 +115,7 @@ func TestAccOutscaleOAPIRouteTable_instance(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPIRouteTable_tags(t *testing.T) {
+func TestAccNet_WithRouteTable_tags(t *testing.T) {
 	value1 := `
 	tags {
 		key = "name"
@@ -162,7 +162,7 @@ func TestAccOutscaleOAPIRouteTable_tags(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleRouteTable_importBasic(t *testing.T) {
+func TestAccNet_RouteTable_importBasic(t *testing.T) {
 	resourceName := "outscale_route_table.foo"
 
 	resource.ParallelTest(t, resource.TestCase{

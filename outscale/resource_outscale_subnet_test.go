@@ -13,7 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPISubNet_basic(t *testing.T) {
+func TestAccNet_WithSubNet_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.Subnet
 

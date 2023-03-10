@@ -25,6 +25,11 @@ test: fmtcheck
 testacc: fmtcheck
 	TF_ACC=1 go test $(TEST) -count 1 -v -parallel 4 $(TESTARGS) -timeout 240m -cover
 
+.PHONY: test-net
+test-net: fmtcheck
+	TF_ACC=1 go test $(TEST) -run=TestAccNet -count 1 -v -parallel 1 $(TESTARGS) -timeout 240m -cover
+
+
 .PHONY: fmt
 fmt:
 	gofmt -s -w ./main.go

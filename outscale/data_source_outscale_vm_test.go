@@ -32,26 +32,11 @@ func TestAccOutscaleOAPIVMDataSource_basic(t *testing.T) {
 
 func testAccOAPIVMDataSourceConfig(omi, vmType, region string) string {
 	return fmt.Sprintf(`
-		resource "outscale_net" "outscale_net" {
-			ip_range = "10.0.0.0/16"
-
-			tags {
-				key = "Name"
-				value = "testacc-vm-ds"
-			}
-		}
-
- 		resource "outscale_subnet" "outscale_subnet" {
-			net_id         = outscale_net.outscale_net.net_id
-			ip_range       = "10.0.0.0/24"
-			subregion_name = "%[3]sa"
-		}
 
 		resource "outscale_vm" "outscale_vm" {
 			image_id     = "%[1]s"
 			vm_type      = "%[2]s"
 			keypair_name = "terraform-basic"
-			subnet_id    = outscale_subnet.outscale_subnet.subnet_id
 
 			tags {
 				key   = "name"

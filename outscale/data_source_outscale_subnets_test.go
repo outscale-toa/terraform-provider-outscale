@@ -8,7 +8,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccDataSourceOutscaleOAPISubnets(t *testing.T) {
+func TestAccNet_WithSubnetsDataSource(t *testing.T) {
 	t.Parallel()
 	rInt := utils.RandIntRange(16, 31)
 
@@ -26,7 +26,7 @@ func TestAccDataSourceOutscaleOAPISubnets(t *testing.T) {
 	})
 }
 
-func TestAccDataSourceOutscaleOAPISubnets_withAvailableIpsCountsFilter(t *testing.T) {
+func TestAccNet_Subnets_withAvailableIpsCountsFilter(t *testing.T) {
 	t.Parallel()
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
@@ -104,7 +104,7 @@ func testAccDataSourceOutscaleOAPISubnetsWithAvailableIpsCountsFilter(region str
 		data "outscale_subnets" "by_filter" {
 			filter {
 				name   = "available_ips_counts"
-				values = ["${outscale_subnet.sub1.available_ips_count}", "${outscale_subnet.sub2.available_ips_count}"]
+				values = [outscale_subnet.sub1.available_ips_count, outscale_subnet.sub2.available_ips_count]
 			}
 		}
 	`, region)

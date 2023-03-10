@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 )
 
-func TestAccOutscaleOAPINetworkInterfacePrivateIPBasic(t *testing.T) {
+func TestAccNet_NICPrivateIPBasic(t *testing.T) {
 	var conf oscgo.Nic
 
 	resource.Test(t, resource.TestCase{
@@ -31,7 +31,7 @@ func TestAccOutscaleOAPINetworkInterfacePrivateIPBasic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPINetworkInterfacePrivateIP_importBasic(t *testing.T) {
+func TestAccNet_Import_NIC_PrivateIP_Basic(t *testing.T) {
 	resourceName := "outscale_nic_private_ip.outscale_nic_private_ip"
 
 	resource.Test(t, resource.TestCase{
