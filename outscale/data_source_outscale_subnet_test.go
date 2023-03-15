@@ -10,7 +10,6 @@ import (
 )
 
 func TestAccNet_WithSubnet_DataSource(t *testing.T) {
-	t.Parallel()
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
@@ -27,7 +26,6 @@ func TestAccNet_WithSubnet_DataSource(t *testing.T) {
 }
 
 func TestAccNet_SubnetDataSource_withAvailableIpsCountsFilter(t *testing.T) {
-	t.Parallel()
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
@@ -55,6 +53,7 @@ func testAccDataSourceOutscaleOAPISubnetCheck(name string) resource.TestCheckFun
 		}
 
 		attr := rs.Primary.Attributes
+		subregion := fmt.Sprintf("%sa", utils.GetRegion())
 
 		if attr["id"] != subnetRs.Primary.Attributes["id"] {
 			return fmt.Errorf(
@@ -64,10 +63,10 @@ func testAccDataSourceOutscaleOAPISubnetCheck(name string) resource.TestCheckFun
 			)
 		}
 
-		if attr["ip_range"] != "10.0.0.0/16" {
+		if attr["ip_range"] != "10.0.0.0/24" {
 			return fmt.Errorf("bad ip_range %s", attr["ip_range"])
 		}
-		if attr["subregion_name"] != utils.GetRegion() {
+		if attr["subregion_name"] != subregion {
 			return fmt.Errorf("bad subregion_name %s", attr["subregion_name"])
 		}
 
@@ -99,7 +98,9 @@ func testAccDataSourceOutscaleOAPISubnetConfig(region string) string {
 			filter {
 				name   = "subnet_ids"
 				values = [outscale_subnet.outscale_subnet.id]
+			}
 		}
+
         `, region)
 }
 
@@ -114,7 +115,7 @@ func testAccDataSourceOutscaleOAPISubnetWithAvailableIpsCountsFilter(region stri
 		}
 
 		resource "outscale_subnet" "outscale_subnet" {
-			subregion_name = "%sb"
+			subregion_name = "%sa"
 			ip_range       = "10.0.0.0/24"
 			net_id         = outscale_net.outscale_net.net_id
 		}

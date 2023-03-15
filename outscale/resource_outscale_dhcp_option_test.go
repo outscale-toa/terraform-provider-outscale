@@ -17,7 +17,7 @@ import (
 	oscgo "github.com/outscale/osc-sdk-go/v2"
 )
 
-func TestAccOutscaleOAPIDhcpOptional_basic(t *testing.T) {
+func TestAccOthers_DhcpOptional_basic(t *testing.T) {
 	t.Parallel()
 	resourceName := "outscale_dhcp_option.foo"
 	value := fmt.Sprintf("test-acc-value-%s", acctest.RandString(5))
@@ -67,7 +67,7 @@ func TestAccOutscaleOAPIDhcpOptional_basic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPIDhcpOptional_withEmptyAttrs(t *testing.T) {
+func TestAccOthers_DhcpOptional_withEmptyAttrs(t *testing.T) {
 	resourceName := "outscale_dhcp_option.foo"
 
 	value := fmt.Sprintf("test-acc-value-%s", acctest.RandString(5))
@@ -164,7 +164,7 @@ func TestAccNet_withDhcpOptional(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleDHCPOption_importBasic(t *testing.T) {
+func TestAccOthers_DHCPOption_importBasic(t *testing.T) {
 	resourceName := "outscale_dhcp_option.foo"
 	value := fmt.Sprintf("test-acc-value-%s", acctest.RandString(5))
 

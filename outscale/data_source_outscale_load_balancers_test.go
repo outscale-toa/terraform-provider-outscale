@@ -8,7 +8,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPIDSLBSU_basic(t *testing.T) {
+func TestAccOthers_LBUs_basic(t *testing.T) {
 	t.Parallel()
 	region := fmt.Sprintf("%sa", utils.GetRegion())
 	numLbu := utils.RandIntRange(0, 50)
@@ -33,7 +33,7 @@ func TestAccOutscaleOAPIDSLBSU_basic(t *testing.T) {
 func testAccDSOutscaleOAPILBsUConfig(region string, numLbu int) string {
 	return fmt.Sprintf(`
 	resource "outscale_load_balancer" "bar" {
-		subregion_names = ["%sa"]
+		subregion_names = ["%s"]
 		load_balancer_name        = "foobar-terraform-elb%d"
 
 		listeners {

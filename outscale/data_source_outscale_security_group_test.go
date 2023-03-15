@@ -102,7 +102,7 @@ func testAccDataSourceOutscaleOAPISecurityGroupConfig(rInt int) string {
 		#data "outscale_security_group" "by_filter" {
 		#	filter {
 		#		name = "security_group_names"
-		#		values = ["${outscale_security_group.test.security_group_name}"]
+		#		values = [outscale_security_group.test.security_group_name]
 		#	}
 		#}`, rInt, rInt)
 }
