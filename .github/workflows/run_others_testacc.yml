@@ -1,0 +1,42 @@
+name: Others Acceptances tests
+
+on:
+  pull_request_target:
+    branches:
+      - master
+    paths:
+      - '**.go'
+      - '**.sum'
+      - '**.mod'
+      - 'GNUmakefile'
+    workflow_dispatch:
+
+jobs:
+  Others_acceptances_tests:
+    environment: RUNNER_ACCESS
+    concurrency: terraform-acceptance-test
+    runs-on: [self-hosted, linux]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            repository: ${{ github.event.pull_request.head.repo.full_name }}
+            ref: ${{ github.event.pull_request.head.ref }}
+      - uses: outscale-dev/frieza-github-actions/frieza-clean@master
+        with:
+          access_key: ${{ secrets.OSC_ACCESS_KEY }}
+          secret_key: ${{ secrets.OSC_SECRET_KEY }}
+          region: ${{ secrets.OSC_REGION }}
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.18.0'
+      - name: Build go test
+        run: make test
+      - name: Run others acceptance tests
+        run: make test-others
+        env:
+          OUTSCALE_ACCESSKEYID: ${{ secrets.OSC_ACCESS_KEY }}
+          OUTSCALE_SECRETKEYID: ${{ secrets.OSC_SECRET_KEY }}
+          OUTSCALE_REGION: ${{ secrets.OSC_REGION }}
+          OUTSCALE_ACCOUNT: ${{ secrets.OSC_ACCOUNT_ID }}
+          OUTSCALE_IMAGEID: ${{ secrets.OUTSCALE_IMAGEID }}

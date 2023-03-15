@@ -29,6 +29,13 @@ testacc: fmtcheck
 test-net: fmtcheck
 	TF_ACC=1 go test $(TEST) -run=TestAccNet -count 1 -v -parallel 1 $(TESTARGS) -timeout 240m -cover
 
+.PHONY: test-vm
+test-vm: fmtcheck
+	TF_ACC=1 go test $(TEST) -run=TestAccVM -count 1 -v -parallel 4 $(TESTARGS) -timeout 240m -cover
+
+.PHONY: test-others
+test-others: fmtcheck
+	TF_ACC=1 go test $(TEST) -run=TestAccOthers -count 1 -v -parallel 4 $(TESTARGS) -timeout 240m -cover
 
 .PHONY: fmt
 fmt:
