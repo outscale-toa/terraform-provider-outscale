@@ -8,8 +8,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccDataSourceOutscaleOAPIFlexibleGpu_basic(t *testing.T) {
-	t.Parallel()
+func TestAccOthers_DataSourceFlexibleGpu_basic(t *testing.T) {
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
@@ -26,17 +25,17 @@ func TestAccDataSourceOutscaleOAPIFlexibleGpu_basic(t *testing.T) {
 
 func testAccDataSourceOutscaleOAPIFlexibleGpuConfig(region string) string {
 	return fmt.Sprintf(`
-                resource "outscale_flexible_gpu" "fGPU-1" { 
+                resource "outscale_flexible_gpu" "dataGPU" {
                         model_name             =  "nvidia-p6"
                         generation             =  "v5"
                         subregion_name         =  "%sa"
                         delete_on_vm_deletion  =   true
                 }
 
-		data "outscale_flexible_gpu" "data_fGPU-1" {
+		data "outscale_flexible_gpu" "data_fGPU" {
 			filter {
 				name = "flexible_gpu_ids"
-				values = [outscale_flexible_gpu.fGPU-data1.flexible_gpu_id]
+				values = [outscale_flexible_gpu.dataGPU.flexible_gpu_id]
 			}
                         filter {
                                 name = "delete_on_vm_deletion"
@@ -56,7 +55,7 @@ func testAccDataSourceOutscaleOAPIFlexibleGpuConfig(region string) string {
                         }
 	                filter {
                                 name = "subregion_names" 
-                                values = ["%[1]s"]
+                                values = ["%[1]sa"]
                         }
 		}
 	`, region)

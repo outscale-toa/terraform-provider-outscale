@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPIPublicIP_basic(t *testing.T) {
+func TestAccOthers_PublicIP_basic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.PublicIp
 
@@ -36,7 +36,7 @@ func TestAccOutscaleOAPIPublicIP_basic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPIPublicIP_instance(t *testing.T) {
+func TestAccNet_PublicIP_instance(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.PublicIp
 	omi := os.Getenv("OUTSCALE_IMAGEID")
@@ -72,7 +72,7 @@ func TestAccOutscaleOAPIPublicIP_instance(t *testing.T) {
 
 // // This test is an expansion of TestAccOutscalePublicIP_instance, by testing the
 // // associated Private PublicIPs of two instances
-func TestAccOutscaleOAPIPublicIP_associated_user_private_ip(t *testing.T) {
+func TestAccNet_PublicIP_associated_user_private_ip(t *testing.T) {
 	var one oscgo.PublicIp
 	omi := os.Getenv("OUTSCALE_IMAGEID")
 	region := utils.GetRegion()
@@ -318,7 +318,7 @@ func testAccOutscaleOAPIPublicIPInstanceConfig2(omi, vmType, region, keypair, sg
 				value = "tf-acc-test"
 			}
 
-			net_id = "${outscale_net.net.id}"
+			net_id = outscale_net.net.id
 		}
 
 		resource "outscale_vm" "basic" {
@@ -353,7 +353,7 @@ func testAccOutscaleOAPIPublicIPInstanceConfigAssociated(omi, vmType, region, ke
 				value = "tf-acc-test"
 			}
 
-			net_id = "${outscale_net.net.id}"
+			net_id = outscale_net.net.id
 		}
 
 		resource "outscale_vm" "basic" {
@@ -396,7 +396,7 @@ func testAccOutscaleOAPIPublicIPInstanceConfigAssociatedSwitch(omi, vmType, regi
 				value = "tf-acc-test"
 			}
 
-			net_id = "${outscale_net.net.id}"
+			net_id = outscale_net.net.id
 		}
 
 		resource "outscale_vm" "basic" {

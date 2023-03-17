@@ -18,7 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPIVM_tags(t *testing.T) {
+func TestAccVM_tags(t *testing.T) {
 	v := &oscgo.Vm{}
 	omi := os.Getenv("OUTSCALE_IMAGEID")
 
@@ -148,27 +148,11 @@ func checkOAPITags(ts []oscgo.ResourceTag, key, value string) error {
 
 func testAccCheckOAPIInstanceConfigTags(omi, vmType, region, key, value string) string {
 	return fmt.Sprintf(`
-		resource "outscale_net" "outscale_net" {
-			ip_range = "10.0.0.0/16"
-
-			tags {
-				key = "Name"
-				value = "testacc-tags-rs"
-			}
-		}
-
-		resource "outscale_subnet" "outscale_subnet" {
-			net_id              = outscale_net.outscale_net.net_id
-			ip_range            = "10.0.0.0/24"
-			subregion_name      = "%[3]sa"
-		}
 		resource "outscale_vm" "vm" {
 			image_id                 = "%s"
 			vm_type                  = "%s"
 			keypair_name             = "terraform-basic"
 			placement_subregion_name = "%[3]sa"
-			subnet_id                = outscale_subnet.outscale_subnet.subnet_id
-			private_ips              =  ["10.0.0.12"]
 		}
 
 		resource "outscale_tag" "foo" {

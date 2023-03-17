@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPILBUBasic(t *testing.T) {
+func TestAccOthers_LBUBasic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.LoadBalancer
 
@@ -44,7 +44,7 @@ func TestAccOutscaleOAPILBUBasic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPILBUPublicIp(t *testing.T) {
+func TestAccOthers_LBUPublicIp(t *testing.T) {
 	t.Skip("will be done soon")
 	t.Parallel()
 	var conf oscgo.LoadBalancer

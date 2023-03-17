@@ -12,7 +12,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccDataOutscaleOAPICas_basic(t *testing.T) {
+func TestAccOthers_DataOutscaleCas_basic(t *testing.T) {
 	resName := "outscale_ca.ca_test"
 
 	resource.Test(t, resource.TestCase{

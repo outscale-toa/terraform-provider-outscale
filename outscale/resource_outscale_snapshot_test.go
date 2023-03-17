@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccOutscaleOAPISnapshot_basic(t *testing.T) {
+func TestAccOthers_Snapshot_basic(t *testing.T) {
 	t.Parallel()
 
 	var v oscgo.Snapshot
@@ -31,7 +31,7 @@ func TestAccOutscaleOAPISnapshot_basic(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPISnapshot_withDescription(t *testing.T) {
+func TestAccOthers_Snapshot_withDescription(t *testing.T) {
 	t.Parallel()
 
 	var v oscgo.Snapshot
@@ -50,7 +50,7 @@ func TestAccOutscaleOAPISnapshot_withDescription(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPISnapshot_CopySnapshot(t *testing.T) {
+func TestAccOthers_Snapshot_CopySnapshot(t *testing.T) {
 	t.Parallel()
 
 	var v oscgo.Snapshot
@@ -69,9 +69,10 @@ func TestAccOutscaleOAPISnapshot_CopySnapshot(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPISnapshot_UpdateTags(t *testing.T) {
-	region := utils.GetRegion()
+func TestAccOthers_Snapshot_UpdateTags(t *testing.T) {
+	t.Parallel()
 
+	region := utils.GetRegion()
 	//var v oscgo.Snapshot
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
@@ -89,7 +90,8 @@ func TestAccOutscaleOAPISnapshot_UpdateTags(t *testing.T) {
 	})
 }
 
-func TestAccOutscaleOAPISnapshot_importBasic(t *testing.T) {
+func TestAccOthers_Snapshot_importBasic(t *testing.T) {
+	t.Parallel()
 
 	var v oscgo.Snapshot
 	resource.Test(t, resource.TestCase{
@@ -176,7 +178,7 @@ func testAccOutscaleOAPISnapshotConfigWithDescription(region string) string {
 		}
 
 		resource "outscale_snapshot" "test" {
-			volume_id = "${outscale_volume.description_test.id}"
+			volume_id = outscale_volume.description_test.id
 			description = "Snapshot Acceptance Test"
 		}
 	`, region)
@@ -190,13 +192,13 @@ func testAccOutscaleOAPISnapshotConfigCopySnapshot(region string) string {
 		}
 
 		resource "outscale_snapshot" "source" {
-			volume_id   = "${outscale_volume.description_test.id}"
+			volume_id   = outscale_volume.description_test.id
 			description = "Source Snapshot Acceptance Test"
 		}
 
 		resource "outscale_snapshot" "test" {
 			source_region_name = "%[1]s"
-			source_snapshot_id = "${outscale_snapshot.source.id}"
+			source_snapshot_id = outscale_snapshot.source.id
 			description        = "Target Snapshot Acceptance Test"
 		}
 	`, region)
@@ -209,8 +211,8 @@ func testAccOutscaleOAPISnapshotConfigUpdateTags(region, value string) string {
 		size           = 10
 	  }
 	  resource "outscale_snapshot" "outscale_snapshot" {
-		volume_id = "${outscale_volume.outscale_volume.volume_id}"
-		
+		volume_id = outscale_volume.outscale_volume.volume_id
+
 		tags {
 		  key   = "Name"
 		  value = "%s"

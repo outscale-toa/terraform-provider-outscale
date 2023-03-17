@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 )
 
-func TestAccOutscaleOAPISnapshotExportTaskDataSource_basic(t *testing.T) {
+func TestAccOthers_SnapshotExportTaskDataSource_basic(t *testing.T) {
 	t.Parallel()
 	imageName := acctest.RandomWithPrefix("terraform-export-")
 	resource.Test(t, resource.TestCase{
@@ -60,7 +60,7 @@ func testAccOutscaleOAPISnapshotExportTaskDataSourceConfig(testName, region stri
 			snapshot_id                     = outscale_snapshot.outscale_snapshot.snapshot_id
 			osu_export {
 				disk_image_format = "qcow2"
-				osu_bucket        = "%s"
+				osu_bucket        = "%[1]s"
 				osu_prefix        = "new-export"
 				}
 		}
@@ -72,5 +72,5 @@ func testAccOutscaleOAPISnapshotExportTaskDataSourceConfig(testName, region stri
 			}
 		}
 		`
-	return fmt.Sprintf(stringTemplate, testName)
+	return fmt.Sprintf(stringTemplate, testName, region)
 }

@@ -10,7 +10,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
-func TestAccOutscaleOAPISnapshotExportTask_basic(t *testing.T) {
+func TestAccOthers_SnapshotExportTask_basic(t *testing.T) {
 	osuBucketNames := []string{
 		acctest.RandomWithPrefix("terraform-export-bucket-"),
 		acctest.RandomWithPrefix("terraform-export-bucket-"),
