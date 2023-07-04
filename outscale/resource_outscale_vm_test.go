@@ -642,6 +642,10 @@ func testAccCheckOutscaleOAPIVMConfigBasic(omi, vmType, region, keypair string) 
 				key   = "name"
 				value = "Terraform-VM"
 			}
+			boot_disk_tags {
+				key   = "Name"
+				value = "boot_dist-test"
+			}
 		}`, omi, vmType, region, keypair)
 }
 
@@ -674,7 +678,7 @@ func testAccCheckOutscaleOAPIVMConfigBasicWithNicAttached(omi, vmType, region, k
 		resource "outscale_subnet" "outscale_subnet" {
 			net_id              = outscale_net.outscale_net.net_id
 			ip_range            = "10.0.0.0/24"
-			subregion_name      = "%[3]sa"
+			subregion_name      = "%[3]sb"
 		}
 
 		resource "outscale_security_group" "outscale_security_group8" {

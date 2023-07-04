@@ -4,5 +4,6 @@
     "test_image_export_tasks_TF-192_image_export_tasks_datasource_attributes_ok",
     "test_snapshot_export_task_TF-193_snapshot_export_task_resource_attributes_ok",
     "test_image_export_task_TF-191_image_export_task_datasource_attributes_ok",
-    "test_snapshot_export_tasks_TF-195_snapshot_export_tasks_datasource_attributes_ok"
+    "test_snapshot_export_tasks_TF-195_snapshot_export_tasks_datasource_attributes_ok",
+    "test_vm_TF-146_vm_resource_public_with_BDM_attributes_ok"
 ]

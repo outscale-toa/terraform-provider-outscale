@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -e
 project_dir=$(cd "$(dirname $0)" && pwd)
 project_root=$(cd $project_dir/.. && pwd)
 BUILD_DIR=$project_root/tests/qa_provider_oapi
@@ -14,9 +13,14 @@ make fmt
 make test
 go build -o terraform-provider-outscale_v0.5.32
 mkdir -p $BUILD_DIR/terraform.d/plugins/registry.terraform.io/outscale/outscale/0.5.32/linux_amd64/
-cp terraform-provider-outscale_v0.5.32 $BUILD_DIR/terraform.d/plugins/registry.terraform.io/outscale/outscale/0.5.32/linux_amd64/
+mv terraform-provider-outscale_v0.5.32 $BUILD_DIR/terraform.d/plugins/registry.terraform.io/outscale/outscale/0.5.32/linux_amd64/
 
 cd $BUILD_DIR
+git grep  '"outscale_net"' data/ | awk -F/ '{ print $3 }' | awk -F_ '{ print $1 }' | sort | uniq > listNets
+
 pip install -r requirements.txt
-pytest -v ./test_provider_oapi.py
-rm -fr terraform.d || exit 0
+while read line; do
+    pytest -k $line -v ./test_provider_oapi.py
+done < listNets
+
+rm -fr terraform.d listNets || exit 0

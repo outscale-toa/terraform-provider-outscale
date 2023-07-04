@@ -68,6 +68,18 @@ test-examples:
 test-integration:
 	@sh -c "'$(CURDIR)/scripts/integration.sh'"
 
+.PHONY: test-vms-integration
+test-vms-integration:
+	@sh -c "'$(CURDIR)/scripts/test_vms_integration.sh'"
+
+.PHONY: test-nets-integration
+test-nets-integration:
+	@sh -c "'$(CURDIR)/scripts/test_nets_integration.sh'"
+
+.PHONY: test-others-integration
+test-others-integration:
+	@sh -c "'$(CURDIR)/scripts/test_others_integration.sh'"
+
 .PHONY: website
 website:
 ifeq (,$(wildcard $(GOPATH)/src/$(WEBSITE_REPO)))
