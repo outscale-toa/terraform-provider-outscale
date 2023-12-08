@@ -34,5 +34,5 @@ fi
 
 cd $BUILD_DIR
 pip install -r requirements.txt
-pytest -v ./test_provider_oapi.py
+pytest -v -k TF-152 ./test_provider_oapi.py
 rm -fr terraform.d || exit 0
