@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oscgo "github.com/outscale/osc-sdk-go/v2"
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
@@ -92,9 +92,9 @@ func oapiVMDescriptionAttributes(set AttributeSetter, vm *oscgo.Vm) error {
 		return err
 	}
 	if err := set("block_device_mappings_created", getOscAPIVMBlockDeviceMapping(vm.GetBlockDeviceMappings())); err != nil {
-		log.Printf("[DEBUG] BLOCKING DEVICE MAPPING ERR %+v", err)
 		return err
 	}
+
 	if err := set("bsu_optimized", vm.GetBsuOptimized()); err != nil {
 		return err
 	}
@@ -199,21 +199,18 @@ func oapiVMDescriptionAttributes(set AttributeSetter, vm *oscgo.Vm) error {
 	return set("vm_type", vm.GetVmType())
 }
 
-func getOscAPIVMBlockDeviceMapping(blockDeviceMappings []oscgo.BlockDeviceMappingCreated) []map[string]interface{} {
-	blockDeviceMapping := make([]map[string]interface{}, len(blockDeviceMappings))
-
-	for k, v := range blockDeviceMappings {
-		blockDeviceMapping[k] = map[string]interface{}{
-			"device_name": aws.StringValue(v.DeviceName),
-			"bsu": map[string]interface{}{
-				"delete_on_vm_deletion": fmt.Sprintf("%t", aws.BoolValue(v.GetBsu().DeleteOnVmDeletion)),
-				"volume_id":             aws.StringValue(v.GetBsu().VolumeId),
-				"state":                 aws.StringValue(v.GetBsu().State),
-				"link_date":             aws.StringValue(v.GetBsu().LinkDate),
-			},
+func getOscAPIVMBlockDeviceMapping(blkMappings []oscgo.BlockDeviceMappingCreated) []map[string]interface{} {
+	res := []map[string]interface{}{}
+	for _, v := range blkMappings {
+		blk := map[string]interface{}{
+			"device_name": v.GetDeviceName(),
 		}
+		if bsu, ok := v.GetBsuOk(); ok {
+			blk["bsu"] = getOAPIBsuSet(*bsu)
+		}
+		res = append(res, blk)
 	}
-	return blockDeviceMapping
+	return res
 }
 
 func getOAPIVMSecurityGroups(groupSet []oscgo.SecurityGroupLight) []map[string]interface{} {
@@ -291,13 +288,11 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"block_device_mappings_created": {
 			Type:     schema.TypeList,
-			Optional: true,
 			Computed: true,
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
 					"bsu": {
-						Type:     schema.TypeMap,
-						Optional: true,
+						Type:     schema.TypeSet,
 						Computed: true,
 						Elem: &schema.Resource{
 							Schema: map[string]*schema.Schema{
@@ -310,11 +305,11 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 									Computed: true,
 								},
 								"state": {
-									Type:     schema.TypeInt,
+									Type:     schema.TypeString,
 									Computed: true,
 								},
 								"volume_id": {
-									Type:     schema.TypeFloat,
+									Type:     schema.TypeString,
 									Computed: true,
 								},
 							},
@@ -329,7 +324,6 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"bsu_optimized": {
 			Type:     schema.TypeBool,
-			Optional: true,
 			Computed: true,
 		},
 		"client_token": {
@@ -342,7 +336,6 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"deletion_protection": {
 			Type:     schema.TypeBool,
-			Optional: true,
 			Computed: true,
 		},
 		"hypervisor": {
@@ -351,28 +344,24 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"image_id": {
 			Type:     schema.TypeString,
-			ForceNew: true,
-			Optional: true,
 			Computed: true,
 		},
 		"is_source_dest_checked": {
 			Type:     schema.TypeBool,
-			Optional: true,
 			Computed: true,
 		},
 		"keypair_name": {
 			Type:     schema.TypeString,
-			Optional: true,
 			Computed: true,
 		},
 		"security_group_ids": {
-			Type:     schema.TypeSet,
-			Optional: true,
+			Type:     schema.TypeList,
+			Computed: true,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 		},
 		"security_group_names": {
 			Type:     schema.TypeList,
-			Optional: true,
+			Computed: true,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 		},
 		"launch_number": {
@@ -471,7 +460,6 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 					},
 					"link_nic": {
 						Type:     schema.TypeList,
-						MaxItems: 1,
 						Computed: true,
 						Elem: &schema.Resource{
 							Schema: map[string]*schema.Schema{
@@ -557,39 +545,32 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"nics": {
 			Type:     schema.TypeList,
-			Optional: true,
 			Computed: true,
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
 					"delete_on_vm_deletion": {
 						Type:     schema.TypeBool,
 						Computed: true,
-						Optional: true,
 					},
 					"description": {
 						Type:     schema.TypeString,
 						Computed: true,
-						Optional: true,
 					},
 					"device_number": {
 						Type:     schema.TypeInt,
 						Computed: true,
-						Optional: true,
 					},
 					"nic_id": {
 						Type:     schema.TypeString,
-						Optional: true,
 						Computed: true,
 					},
 					"private_ips": {
 						Type:     schema.TypeSet,
-						Optional: true,
 						Computed: true,
 						Elem: &schema.Resource{
 							Schema: map[string]*schema.Schema{
 								"is_primary": {
 									Type:     schema.TypeBool,
-									Optional: true,
 									Computed: true,
 								},
 								"link_public_ip": {
@@ -618,7 +599,6 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 								},
 								"private_ip": {
 									Type:     schema.TypeString,
-									Optional: true,
 									Computed: true,
 								},
 							},
@@ -626,12 +606,10 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 					},
 					"secondary_private_ip_count": {
 						Type:     schema.TypeInt,
-						Optional: true,
 						Computed: true,
 					},
 					"security_group_ids": {
 						Type:     schema.TypeList,
-						Optional: true,
 						Computed: true,
 						Elem:     &schema.Schema{Type: schema.TypeString},
 					},
@@ -648,12 +626,10 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 					"subnet_id": {
 						Type:     schema.TypeString,
 						Computed: true,
-						Optional: true,
 					},
 					"link_nic": {
-						Type:     schema.TypeList,
+						Type:     schema.TypeSet,
 						Computed: true,
-						MaxItems: 1,
 						Elem: &schema.Resource{
 							Schema: map[string]*schema.Schema{
 								"delete_on_vm_deletion": {
@@ -710,7 +686,6 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 					},
 					"security_groups_names": {
 						Type:     schema.TypeList,
-						Optional: true,
 						Computed: true,
 						Elem:     &schema.Schema{Type: schema.TypeString},
 					},
@@ -747,12 +722,10 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"placement_subregion_name": {
 			Type:     schema.TypeString,
-			Optional: true,
 			Computed: true,
 		},
 		"placement_tenancy": {
 			Type:     schema.TypeString,
-			Optional: true,
 			Computed: true,
 		},
 		"private_dns_name": {
@@ -814,8 +787,6 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"subnet_id": {
 			Type:     schema.TypeString,
-			ForceNew: true,
-			Optional: true,
 			Computed: true,
 		},
 		"tags": {
@@ -836,22 +807,18 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"user_data": {
 			Type:     schema.TypeString,
-			Optional: true,
 			Computed: true,
 		},
 		"vm_id": {
 			Type:     schema.TypeString,
 			Computed: true,
-			Optional: true,
 		},
 		"vm_initiated_shutdown_behavior": {
 			Type:     schema.TypeString,
-			Optional: true,
 			Computed: true,
 		},
 		"vm_type": {
 			Type:     schema.TypeString,
-			Optional: true,
 			Computed: true,
 		},
 		"request_id": {
@@ -860,7 +827,7 @@ func getOApiVMAttributesSchema() map[string]*schema.Schema {
 		},
 		"private_ips": {
 			Type:     schema.TypeList,
-			Optional: true,
+			Computed: true,
 			Elem:     &schema.Schema{Type: schema.TypeString},
 		},
 	}
