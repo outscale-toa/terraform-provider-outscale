@@ -34,9 +34,9 @@ func TestAccOthers_LBUBasic(t *testing.T) {
 			{
 				Config: testAccOutscaleOAPILBUConfig(r),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckOutscaleOAPILBUExistse(lbResourceName, &conf),
+					testAccCheckOutscaleOAPILBUExists(lbResourceName, &conf),
 					resource.TestCheckResourceAttr(lbResourceName, "subregion_names.#", "1"),
-					resource.TestCheckResourceAttr(lbResourceaName, "subregion_names.0", zone),
+					resource.TestCheckResourceAttr(lbResourceName, "subregion_names.0", zone),
 					resource.TestCheckResourceAttr(lbResourceName, "listeners.#", "1"),
 					resource.TestCheckResourceAttr(lbResourceName, "secured_cookies", "true"),
 				)},
