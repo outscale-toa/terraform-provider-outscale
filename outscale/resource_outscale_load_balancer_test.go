@@ -19,7 +19,7 @@ func TestAccOthers_LBUBasic(t *testing.T) {
 	t.Parallel()
 	var conf oscgo.LoadBalancer
 
-	resourceName := "outscale_load_balancer.barRes"
+	lbResourceName := "outscale_load_balancer.barRes"
 	r := utils.RandIntRange(0, 10)
 	zone := fmt.Sprintf("%sa", utils.GetRegion())
 
@@ -27,18 +27,18 @@ func TestAccOthers_LBUBasic(t *testing.T) {
 		PreCheck: func() {
 			testAccPreCheck(t)
 		},
-		IDRefreshName: resourceName,
+		IDRefreshName: lbResourceName,
 		Providers:     testAccProviders,
 		CheckDestroy:  testAccCheckOutscaleOAPILBUDestroy,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccOutscaleOAPILBUConfig(r),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckOutscaleOAPILBUExists(resourceName, &conf),
-					resource.TestCheckResourceAttr(resourceName, "subregion_names.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "subregion_names.0", zone),
-					resource.TestCheckResourceAttr(resourceName, "listeners.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "secured_cookies", "true"),
+					testAccCheckOutscaleOAPILBUExistse(lbResourceName, &conf),
+					resource.TestCheckResourceAttr(lbResourceName, "subregion_names.#", "1"),
+					resource.TestCheckResourceAttr(lbResourceaName, "subregion_names.0", zone),
+					resource.TestCheckResourceAttr(lbResourceName, "listeners.#", "1"),
+					resource.TestCheckResourceAttr(lbResourceName, "secured_cookies", "true"),
 				)},
 		},
 	})
