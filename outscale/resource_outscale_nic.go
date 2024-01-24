@@ -15,7 +15,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/openlyinc/pointy"
 	"github.com/terraform-providers/terraform-provider-outscale/utils"
 )
 
@@ -607,6 +606,9 @@ func resourceOutscaleOAPINicUpdate(d *schema.ResourceData, meta interface{}) err
 		pips := d.Get("pips").(*schema.Set).List()
 		prips := pips[:0]
 		pip := d.Get("private_ip")
+		input := oscgo.LinkPrivateIpsRequest{
+			NicId: d.Id(),
+		}
 
 		for _, ip := range pips {
 			if ip != pip {
@@ -619,12 +621,7 @@ func resourceOutscaleOAPINicUpdate(d *schema.ResourceData, meta interface{}) err
 
 			// Surplus of IPs, add the diff
 			if diff > 0 {
-				dif := int32(diff)
-				input := oscgo.LinkPrivateIpsRequest{
-					NicId:                   d.Id(),
-					SecondaryPrivateIpCount: pointy.Int32(dif),
-				}
-				// _, err := conn.VM.AssignPrivateIpAddresses(input)
+				input.SetSecondaryPrivateIpCount(int32(diff))
 
 				err := resource.Retry(5*time.Minute, func() *resource.RetryError {
 					var err error
@@ -682,10 +679,9 @@ func resourceOutscaleOAPINicUpdate(d *schema.ResourceData, meta interface{}) err
 
 	if d.HasChange("description") {
 		request := oscgo.UpdateNicRequest{
-			NicId:       d.Id(),
-			Description: pointy.String(d.Get("description").(string)),
+			NicId: d.Id(),
 		}
-
+		request.SetDescription(d.Get("description").(string))
 		var err error
 		err = resource.Retry(5*time.Minute, func() *resource.RetryError {
 			_, httpResp, err := conn.NicApi.UpdateNic(context.Background()).UpdateNicRequest(request).Execute()
